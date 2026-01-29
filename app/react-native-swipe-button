@@ -1,0 +1,22 @@
+declare module "react-native-swipe-button" {
+  import { Component } from "react";
+  import { TextStyle, ViewStyle } from "react-native";
+
+  interface SwipeButtonProps {
+    disabled?: boolean;
+    swipeSuccessThreshold?: number;
+    height?: number;
+    width?: number | string;
+    title?: string;
+    titleColor?: string;
+    titleStyles?: TextStyle;
+    thumbIconBackgroundColor?: string;
+    thumbIconStyles?: ViewStyle;
+    railBackgroundColor?: string;
+    railFillBackgroundColor?: string;
+    railFillBorderColor?: string;
+    onSwipeSuccess: () => void;
+  }
+
+  export default class SwipeButton extends Component<SwipeButtonProps> {}
+}
