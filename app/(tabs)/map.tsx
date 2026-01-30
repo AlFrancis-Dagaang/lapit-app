@@ -31,25 +31,23 @@ export default function MapPage() {
   // Load dropoff data from storage
   useEffect(() => {
     const loadDropoff = async () => {
-      const data = await AsyncStorage.getItem("ongoingDropoff");
+      const data = await AsyncStorage.getItem("dropoffs"); // load array
       if (data) {
-        let stored = JSON.parse(data) as DropoffData;
+        const list = JSON.parse(data) as DropoffData[];
+        // Pick the latest dropoff with status process or done (EXCLUDE cancel and success)
+        const latest = list.find(d => d.status === "process" || d.status === "done");
+        if (latest) {
+          setDropoff(latest);
 
-        // Only show drop-off if status is process or done
-        if (stored.status === "process" || stored.status === "done") {
-          setDropoff(stored);
-
-          // TEST: Trigger alert automatically 10s after load if not yet happened
-          if (!stored.alertHappened) {
-            setTimeout(() => triggerAlerts(stored), 10000); // 10s delay
-          }
-        } else {
-          setDropoff(null);
+          // if (!latest.alertHappened) {
+          //   setTimeout(() => triggerAlerts(latest), 10000); // optional
+          // }
         }
       }
     };
     loadDropoff();
   }, []);
+
 
     useEffect(() => {
     if (!dropoff || !userLocation) return;
@@ -139,6 +137,22 @@ export default function MapPage() {
 
     // Save alertHappened = true and mark done
     const updated = { ...dropoff, alertHappened: true, status: "done" as const };
+    
+    // Update in the dropoffs array
+    const data = await AsyncStorage.getItem("dropoffs");
+    if (data) {
+      const list = JSON.parse(data) as DropoffData[];
+      const index = list.findIndex(d => 
+        d.latitude === dropoff.latitude && 
+        d.longitude === dropoff.longitude &&
+        d.alertDistance === dropoff.alertDistance
+      );
+      if (index !== -1) {
+        list[index] = updated;
+        await AsyncStorage.setItem("dropoffs", JSON.stringify(list));
+      }
+    }
+    
     await AsyncStorage.setItem("ongoingDropoff", JSON.stringify(updated));
     setDropoff(updated);
   };
@@ -156,8 +170,24 @@ export default function MapPage() {
           onPress: async () => {
             if (dropoff) {
               const updated = { ...dropoff, status: "cancel" as const };
+              
+              // Update the dropoffs array to mark as cancelled
+              const data = await AsyncStorage.getItem("dropoffs");
+              if (data) {
+                const list = JSON.parse(data) as DropoffData[];
+                const index = list.findIndex(d => 
+                  d.latitude === dropoff.latitude && 
+                  d.longitude === dropoff.longitude &&
+                  d.alertDistance === dropoff.alertDistance
+                );
+                if (index !== -1) {
+                  list[index] = updated;
+                  await AsyncStorage.setItem("dropoffs", JSON.stringify(list));
+                }
+              }
+              
               await AsyncStorage.setItem("ongoingDropoff", JSON.stringify(updated));
-              setDropoff(updated);
+              setDropoff(null); // Clear the dropoff from state so it doesn't show when coming back
               router.push("/home");
             }
           },
@@ -170,19 +200,29 @@ export default function MapPage() {
   const handleDone = async () => {
     if (!dropoff) return;
 
-    // Mark as done
-    const updatedDropoff = { ...dropoff, status: "done" as const };
-    await AsyncStorage.setItem("ongoingDropoff", JSON.stringify(updatedDropoff));
-    setDropoff(updatedDropoff);
+    // Mark as success (not just done)
+    const successDropoff = { ...dropoff, status: "success" as const };
+    
+    // Update in the dropoffs array
+    const data = await AsyncStorage.getItem("dropoffs");
+    if (data) {
+      const list = JSON.parse(data) as DropoffData[];
+      const index = list.findIndex(d => 
+        d.latitude === dropoff.latitude && 
+        d.longitude === dropoff.longitude &&
+        d.alertDistance === dropoff.alertDistance
+      );
+      if (index !== -1) {
+        list[index] = successDropoff;
+        await AsyncStorage.setItem("dropoffs", JSON.stringify(list));
+      }
+    }
 
-    // Save a copy as success
+    // Save a copy as success in completedDropoffs
     try {
       const completedData = await AsyncStorage.getItem("completedDropoffs");
       let completed: DropoffData[] = completedData ? JSON.parse(completedData) : [];
-
-      const successDropoff = { ...dropoff, status: "success" as const };
       completed.push(successDropoff);
-
       await AsyncStorage.setItem("completedDropoffs", JSON.stringify(completed));
     } catch (err) {
       console.log("Error saving completed drop-off", err);
@@ -269,7 +309,7 @@ export default function MapPage() {
         >
           <Text style={[
             styles.buttonText,
-            { color: dropoff ? "#ffffff" : "#555" } // black text for active, gray for no dropoff
+            { color: dropoff ? "#ffffff" : "#555" } // white text for active, gray for no dropoff
           ]}>
             {dropoff
               ? dropoff.status === "process"
