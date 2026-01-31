@@ -153,7 +153,7 @@ export default function Home() {
               keyExtractor={(item) => item.id}
               renderItem={renderItem}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingBottom: 20 }}
+              contentContainerStyle={{ paddingBottom: 100 }}
             />
           </View>
         )}
@@ -299,8 +299,12 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 20,
+    right: 20,
     paddingVertical: 20,
-    paddingBottom: 24,
+    backgroundColor: "#f5f5f5",
   },
 
   addButton: {

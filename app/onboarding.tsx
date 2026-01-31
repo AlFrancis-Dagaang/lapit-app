@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Onboarding() {
   const router = useRouter();
-
+    
   const handleGetStarted = async () => {
     try {
       // Save onboarding flag
