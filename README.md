@@ -1,50 +1,142 @@
-# Welcome to your Expo app 👋
+# Lapit
+### Your Personal Commuter Drop-off Alert App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> **Never miss your stop again.**  
+> Lapit alerts you when you're approaching your drop-off point — perfect for commuters who fall asleep, get distracted, or just lose track of where they are on the route.
 
-## Get started
+---
 
-1. Install dependencies
+![Lapit App](./assets/images/lapit-ad.jpg)
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## What is Lapit?
 
-   ```bash
-   npx expo start
-   ```
+**Lapit** (Filipino for *close/near*) is a mobile app built with React Native and Expo that monitors your real-time GPS location and **alerts you when you're close to your drop-off stop** — so you never miss it again while riding a bus, jeepney, UV Express, or any commuter vehicle.
 
-In the output, you'll find options to open the app in a
+### The Problem It Solves
+- Falling asleep on long commutes
+- Getting too distracted on your phone
+- Not being familiar with a new route
+- Poor visibility during bad weather
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+---
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Features
 
-## Get a fresh project
+- Real-time GPS tracking
+- Proximity alert when approaching drop-off point
+- Set your drop-off location on a map
+- Customizable alert radius
+- Sound + vibration notifications
+- Runs in the background while you commute
 
-When you're ready, run:
+---
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- [Expo Go](https://expo.dev/go) app on your mobile device
+
+---
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/YOUR_USERNAME/lapit-commuter-app.git
+cd lapit-commuter-app
+```
+
+> Replace `YOUR_USERNAME` with your actual GitHub username.
+
+---
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+---
+
+### Start the App
+
+```bash
+npx expo start
+```
+
+In the output, you'll find options to open the app in a:
+
+- [Expo Go](https://expo.dev/go) — scan the QR code on your phone
+- [Android Emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
+- [iOS Simulator](https://docs.expo.dev/workflow/ios-simulator/)
+- [Development Build](https://docs.expo.dev/develop/development-builds/introduction/)
+
+---
+
+## Project Structure
+
+```
+lapit-commuter-app/
+├── app/                  # File-based routing (Expo Router)
+│   ├── index.tsx         # Home / main screen
+│   └── ...
+├── assets/
+│   └── images/
+│       └── lapit-ad.jpg  # App banner
+├── components/           # Reusable UI components
+├── hooks/                # Custom hooks (e.g., location tracking)
+└── README.md
+```
+
+---
+
+## Built With
+
+- [React Native](https://reactnative.dev/)
+- [Expo](https://expo.dev/)
+- [Expo Location](https://docs.expo.dev/versions/latest/sdk/location/) — for GPS tracking
+- [Expo Notifications](https://docs.expo.dev/versions/latest/sdk/notifications/) — for alerts
+- [React Native Maps](https://github.com/react-native-maps/react-native-maps) — for map UI
+
+---
+
+## Reset the Project
+
+To start fresh with a clean slate:
 
 ```bash
 npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This moves the starter code to `app-example/` and gives you a blank `app/` directory.
 
-## Learn more
+---
 
-To learn more about developing your project with Expo, look at the following resources:
+## Learn More
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- [Expo Documentation](https://docs.expo.dev/)
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+- [React Native Docs](https://reactnative.dev/docs/getting-started)
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## Contributing
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This is a personal project, but feel free to fork it, suggest improvements, or report bugs via [Issues](https://github.com/YOUR_USERNAME/lapit-commuter-app/issues).
+
+---
+
+## Author
+
+Made with love by **Al Francis Daga-ang**  
+Built to solve a real daily commuter problem.
+
+---
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
